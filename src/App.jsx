@@ -6,9 +6,7 @@ import { Dashboard } from './Dashboard.jsx'
 function App() {
   const [showSignupModal, setShowSignupModal] = useState(false)
   const [showLoginModal, setShowLoginModal] = useState(false)
-  const [showPricingModal, setPricingModal] = useState(false)
   const [selectedServices, setSelectedServices] = useState([])
-  const [selectedPlan, setSelectedPlan] = useState('')
   const [currentPage, setCurrentPage] = useState('home')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
@@ -17,107 +15,40 @@ function App() {
     {
       id: 'email',
       name: 'Email Automation',
-      description: 'Automated email sequences and campaigns',
+      description: 'Automated email sequences that nurture leads and drive conversions',
       icon: '📧',
-      features: ['Drag & drop builder', 'A/B testing', 'Analytics', 'Personalization']
+      features: ['Drag-and-drop builder', 'Smart segmentation', 'A/B testing', 'Performance analytics']
     },
     {
       id: 'social',
       name: 'Social Media Management',
-      description: 'Schedule posts and monitor social media',
+      description: 'Schedule, publish, and analyze your social media presence across platforms',
       icon: '📱',
-      features: ['Multi-platform posting', 'Content calendar', 'Engagement tracking', 'Analytics']
+      features: ['Multi-platform posting', 'Content calendar', 'Engagement tracking', 'Hashtag optimization']
     },
     {
       id: 'forms',
       name: 'Smart Forms & Lead Gen',
-      description: 'Intelligent forms with conditional logic',
-      icon: '⚡',
-      features: ['Conditional logic', 'Lead scoring', 'Real-time validation', 'Integration ready']
+      description: 'Intelligent forms that capture and qualify leads automatically',
+      icon: '📝',
+      features: ['Conditional logic', 'Real-time validation', 'Lead scoring', 'CRM integration']
     },
     {
-      id: 'leadgen',
+      id: 'lead-gen',
       name: 'Lead Generation Services',
-      description: 'Complete lead generation and nurturing',
+      description: 'Professional lead generation campaigns and strategies',
       icon: '🎯',
       features: ['Target identification', 'Outreach campaigns', 'Lead qualification', 'Conversion optimization']
     }
   ]
-
-  const pricingPlans = [
-    {
-      id: 'starter',
-      name: 'Starter',
-      price: '₹2,999',
-      period: '/month',
-      description: 'Perfect for small businesses and startups',
-      features: [
-        'Email automation (up to 1,000 contacts)',
-        'Basic social media scheduling (2 platforms)',
-        'Lead capture forms',
-        'Email support',
-        'Basic analytics dashboard'
-      ],
-      popular: false
-    },
-    {
-      id: 'growth',
-      name: 'Growth',
-      price: '₹7,999',
-      period: '/month',
-      description: 'Ideal for growing businesses',
-      features: [
-        'Email automation (up to 10,000 contacts)',
-        'Advanced social media management (5 platforms)',
-        'Lead scoring & nurturing',
-        'CRM integration',
-        'Advanced analytics & reporting',
-        'Phone support',
-        'A/B testing suite'
-      ],
-      popular: true
-    },
-    {
-      id: 'enterprise',
-      name: 'Enterprise',
-      price: 'Custom',
-      period: 'pricing',
-      description: 'For large businesses with complex needs',
-      features: [
-        'Unlimited contacts',
-        'Custom integrations',
-        'Dedicated account manager',
-        'Priority support',
-        'Custom reporting',
-        'Advanced automation workflows',
-        'White-label options'
-      ],
-      popular: false
-    }
-  ]
-
-  const handleServiceToggle = (serviceId) => {
-    setSelectedServices(prev => 
-      prev.includes(serviceId) 
-        ? prev.filter(id => id !== serviceId)
-        : [...prev, serviceId]
-    )
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const formData = new FormData(e.target)
     const data = Object.fromEntries(formData)
     
-    alert(`Thank you for your interest! We'll contact you within 24 hours to discuss your ${selectedPlan || 'marketing automation'} needs and provide a custom strategy.`)
+    alert(`Thank you for your interest! We'll contact you within 24 hours to discuss your marketing automation needs and provide a custom strategy.`)
     setShowSignupModal(false)
-    setPricingModal(false)
-  }
-
-  const handlePlanSelect = (planName) => {
-    setSelectedPlan(planName)
-    setShowSignupModal(true)
-    setPricingModal(false)
   }
 
   // Navigation function
@@ -150,30 +81,22 @@ function App() {
                 <p className="text-sm text-gray-600">Automate Your Growth</p>
               </div>
             </div>
-            <nav className="hidden md:flex space-x-8">
-              <button onClick={() => navigateTo('home')} className="text-gray-700 hover:text-orange-500 transition-colors">Home</button>
-              <button onClick={() => navigateTo('about')} className="text-gray-700 hover:text-orange-500 transition-colors">About</button>
-              <button onClick={() => navigateTo('services')} className="text-gray-700 hover:text-orange-500 transition-colors">Services</button>
-              <button onClick={() => navigateTo('how-it-works')} className="text-gray-700 hover:text-orange-500 transition-colors">How It Works</button>
-              <button onClick={() => navigateTo('case-studies')} className="text-gray-700 hover:text-orange-500 transition-colors">Case Studies</button>
-              <button onClick={() => navigateTo('faq')} className="text-gray-700 hover:text-orange-500 transition-colors">FAQ</button>
-              <button onClick={() => navigateTo('blog')} className="text-gray-700 hover:text-orange-500 transition-colors">Blog</button>
-              <button onClick={() => navigateTo('contact')} className="text-gray-700 hover:text-orange-500 transition-colors">Contact</button>
+            <nav className="hidden md:flex space-x-6">
+              <button onClick={() => navigateTo('home')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium">Home</button>
+              <button onClick={() => navigateTo('about')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium">About</button>
+              <button onClick={() => navigateTo('services')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium">Services</button>
+              <button onClick={() => navigateTo('case-studies')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium">Case Studies</button>
+              <button onClick={() => navigateTo('faq')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium">FAQ</button>
+              <button onClick={() => navigateTo('contact')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium">Contact</button>
             </nav>
-            <div className="flex space-x-4">
+            <div className="flex space-x-3">
               {!isLoggedIn ? (
                 <>
                   <button 
                     onClick={() => setShowLoginModal(true)}
-                    className="text-orange-500 border border-orange-500 px-6 py-2 rounded-lg hover:bg-orange-50 transition-colors font-medium"
+                    className="text-orange-500 border border-orange-500 px-4 py-2 rounded-lg hover:bg-orange-50 transition-colors font-medium"
                   >
                     Login
-                  </button>
-                  <button 
-                    onClick={() => setPricingModal(true)}
-                    className="text-gray-700 border border-gray-300 px-6 py-2 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-                  >
-                    View Pricing
                   </button>
                   <button 
                     onClick={() => setShowSignupModal(true)}
@@ -324,63 +247,6 @@ function App() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Simple, Transparent <span className="text-orange-500">Pricing</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Choose the perfect plan for your business. All plans include our core automation features with 14-day free trial.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {pricingPlans.map((plan) => (
-              <div key={plan.id} className={`bg-white rounded-2xl shadow-lg p-8 relative ${plan.popular ? 'ring-2 ring-orange-500 transform scale-105' : ''}`}>
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-orange-500 text-white px-6 py-2 rounded-full text-sm font-medium">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-                
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                  <div className="mb-4">
-                    <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
-                    <span className="text-gray-600">{plan.period}</span>
-                  </div>
-                  <p className="text-gray-600">{plan.description}</p>
-                </div>
-                
-                <ul className="space-y-4 mb-8">
-                  {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-center">
-                      <span className="text-green-500 mr-3">✓</span>
-                      <span className="text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                
-                <button 
-                  onClick={() => handlePlanSelect(plan.name)}
-                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
-                    plan.popular 
-                      ? 'bg-orange-500 text-white hover:bg-orange-600' 
-                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                  }`}
-                >
-                  Start Free Trial
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Features Section */}
       <section id="features" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -515,12 +381,6 @@ function App() {
             >
               Get Free Consultation
             </button>
-            <button 
-              onClick={() => setPricingModal(true)}
-              className="border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-orange-500 transition-colors font-medium text-lg"
-            >
-              View Pricing Plans
-            </button>
           </div>
         </div>
       </section>
@@ -553,8 +413,7 @@ function App() {
             <div>
               <h4 className="font-bold mb-4">Product</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><button onClick={() => navigateTo('services')} className="hover:text-white">Features</button></li>
-                <li><button onClick={() => setPricingModal(true)} className="hover:text-white">Pricing</button></li>
+                <li><button onClick={() => navigateTo('services')} className="hover:text-white">Services</button></li>
                 <li><button onClick={() => navigateTo('case-studies')} className="hover:text-white">Case Studies</button></li>
                 <li><button className="hover:text-white">Integrations</button></li>
               </ul>
@@ -679,66 +538,6 @@ function App() {
                 Start Free Trial
               </button>
             </form>
-          </div>
-        </div>
-      )}
-
-      {/* Pricing Modal */}
-      {showPricingModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Choose Your Plan</h2>
-              <button 
-                onClick={() => setPricingModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                ✕
-              </button>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-6">
-              {pricingPlans.map((plan) => (
-                <div key={plan.id} className={`border rounded-xl p-6 ${plan.popular ? 'border-orange-500 bg-orange-50' : 'border-gray-200'}`}>
-                  {plan.popular && (
-                    <div className="text-center mb-4">
-                      <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                        Most Popular
-                      </span>
-                    </div>
-                  )}
-                  
-                  <div className="text-center mb-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                    <div className="mb-2">
-                      <span className="text-3xl font-bold text-gray-900">{plan.price}</span>
-                      <span className="text-gray-600">{plan.period}</span>
-                    </div>
-                    <p className="text-gray-600 text-sm">{plan.description}</p>
-                  </div>
-                  
-                  <ul className="space-y-2 mb-6">
-                    {plan.features.map((feature, index) => (
-                      <li key={index} className="flex items-center text-sm">
-                        <span className="text-green-500 mr-2">✓</span>
-                        <span className="text-gray-700">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  <button 
-                    onClick={() => handlePlanSelect(plan.name)}
-                    className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
-                      plan.popular 
-                        ? 'bg-orange-500 text-white hover:bg-orange-600' 
-                        : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                    }`}
-                  >
-                    Start Free Trial
-                  </button>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       )}
