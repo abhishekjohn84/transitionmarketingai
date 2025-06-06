@@ -642,7 +642,7 @@ function App() {
                 type="submit"
                 className="w-full bg-orange-500 text-white py-4 px-6 rounded-lg hover:bg-orange-600 transition-colors font-medium text-lg"
               >
-                Start Free Trial
+                Get Free Consultation
               </button>
             </form>
           </div>
