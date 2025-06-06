@@ -311,6 +311,113 @@ function App() {
         </div>
       </section>
 
+      {/* How It Works Section */}
+      <section id="how-it-works" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              How <span className="text-orange-500">GROWTHFLOW</span> Works
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Our proven 4-step process to transform your marketing and accelerate your business growth
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              {
+                step: "01",
+                icon: "📞",
+                title: "Free Consultation",
+                description: "Schedule a 30-minute consultation where we analyze your current marketing and identify growth opportunities.",
+                details: ["Business analysis", "Goal identification", "Strategy discussion", "Custom recommendations"]
+              },
+              {
+                step: "02", 
+                icon: "📋",
+                title: "Custom Strategy",
+                description: "We create a tailored marketing automation strategy based on your specific business needs and goals.",
+                details: ["Personalized plan", "Service selection", "Timeline creation", "ROI projections"]
+              },
+              {
+                step: "03",
+                icon: "⚙️", 
+                title: "Implementation",
+                description: "Our experts set up and configure your marketing automation systems for maximum effectiveness.",
+                details: ["System setup", "Integration", "Content creation", "Testing & optimization"]
+              },
+              {
+                step: "04",
+                icon: "📈",
+                title: "Growth & Support",
+                description: "Watch your business grow while we provide ongoing support and optimization to maximize results.",
+                details: ["Performance monitoring", "Continuous optimization", "Regular reporting", "Dedicated support"]
+              }
+            ].map((step, index) => (
+              <div key={index} className="relative">
+                {/* Connection Line */}
+                {index < 3 && (
+                  <div className="hidden md:block absolute top-16 left-full w-full h-0.5 bg-orange-200 z-0">
+                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-orange-500 rounded-full"></div>
+                  </div>
+                )}
+                
+                <div className="bg-white rounded-2xl p-8 text-center relative z-10 hover:shadow-lg transition-shadow">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-6">
+                    <span className="text-2xl">{step.icon}</span>
+                  </div>
+                  
+                  <div className="absolute -top-4 -right-4 bg-orange-500 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg">
+                    {step.step}
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{step.title}</h3>
+                  <p className="text-gray-600 mb-6">{step.description}</p>
+                  
+                  <ul className="space-y-2 text-sm text-gray-500">
+                    {step.details.map((detail, detailIndex) => (
+                      <li key={detailIndex} className="flex items-center justify-center">
+                        <span className="text-orange-500 mr-2">✓</span>
+                        {detail}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="text-center mt-12">
+            <div className="bg-white rounded-2xl p-8 max-w-2xl mx-auto shadow-lg">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Get Started?</h3>
+              <p className="text-gray-600 mb-6">
+                Join 500+ Indian businesses that have transformed their marketing with GROWTHFLOW
+              </p>
+              <button 
+                onClick={() => setShowSignupModal(true)}
+                className="bg-orange-500 text-white px-8 py-4 rounded-lg hover:bg-orange-600 transition-colors font-medium text-lg"
+              >
+                Get Your Free Consultation
+              </button>
+              <div className="flex items-center justify-center mt-4 space-x-6 text-sm text-gray-500">
+                <span className="flex items-center">
+                  <span className="text-green-500 mr-1">✓</span>
+                  No credit card required
+                </span>
+                <span className="flex items-center">
+                  <span className="text-green-500 mr-1">✓</span>
+                  24-hour response
+                </span>
+                <span className="flex items-center">
+                  <span className="text-green-500 mr-1">✓</span>
+                  Custom strategy
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Reviews Section */}
       <section id="reviews" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

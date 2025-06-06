@@ -3,7 +3,7 @@
 Complete marketing automation platform website for Indian businesses.
 
 ## Version
-Current Version: 1.05.0
+Current Version: 1.06.0
 
 **Latest Update:** Successfully connected to GitHub with automatic versioning system!
 

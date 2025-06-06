@@ -4,3 +4,4 @@
 - v1.03.0 - 2025-06-06 04:30 - Added complete authentication system with login/signup and CRM dashboard integration
 - v1.04.0 - 2025-06-06 04:44 - Fixed navigation and ensured all corporate pages (FAQ, Contact, etc.) and login functionality are working properly
 - v1.05.0 - 2025-06-06 05:07 - Reorganized header navigation and removed all pricing elements for consultation-focused approach
+- v1.06.0 - 2025-06-06 05:18 - Added comprehensive How It Works section with infographics to replace pricing section - pure consultation focus
