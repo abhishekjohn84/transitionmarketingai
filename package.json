@@ -1,7 +1,7 @@
 {
   "name": "growthflow-website",
   "private": true,
-  "version": "1.03.0",
+  "version": "1.04.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
