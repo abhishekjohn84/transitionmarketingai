@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TransitionMarketingAI - Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #334155;
+        }
+        
+        .header {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            color: #1e293b;
+            font-size: 24px;
+        }
+        
+        .header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-left: 4px solid #ff6b35;
+        }
+        
+        .stat-card h3 {
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+        }
+        
+        .section-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-header h2 {
+            font-size: 18px;
+            color: #1e293b;
+        }
+        
+        .section-content {
+            padding: 24px;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th,
+        .table td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #475569;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .badge-admin {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .badge-user {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .btn {
+            background: #ff6b35;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 4px;
+        }
+        
+        .btn:hover {
+            background: #e55a2b;
+        }
+        
+        .btn-secondary {
+            background: #64748b;
+        }
+        
+        .btn-secondary:hover {
+            background: #475569;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        
+        .success {
+            background: #dcfce7;
+            color: #166534;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 24px;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            color: #64748b;
+        }
+        
+        .tab.active {
+            color: #ff6b35;
+            border-bottom-color: #ff6b35;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎛️ Admin Dashboard</h1>
+        <div class="user-info">
+            <span id="adminName">Admin User</span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Users</h3>
+                <div class="value" id="totalUsers">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Leads</h3>
+                <div class="value" id="totalLeads">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>Active Campaigns</h3>
+                <div class="value" id="activeCampaigns">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>System Health</h3>
+                <div class="value" id="systemHealth">-</div>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('overview')">Overview</div>
+            <div class="tab" onclick="showTab('users')">Users</div>
+            <div class="tab" onclick="showTab('system')">System</div>
+        </div>
+        
+        <div id="overview" class="tab-content active">
+            <div class="section">
+                <div class="section-header">
+                    <h2>📊 System Overview</h2>
+                    <button class="btn" onclick="refreshData()">Refresh Data</button>
+                </div>
+                <div class="section-content">
+                    <div id="overviewContent">
+                        <div class="loading">Loading overview data...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="users" class="tab-content">
+            <div class="section">
+                <div class="section-header">
+                    <h2>👥 User Management</h2>
+                    <button class="btn" onclick="refreshUsers()">Refresh Users</button>
+                </div>
+                <div class="section-content">
+                    <div id="usersContent">
+                        <div class="loading">Loading users...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="system" class="tab-content">
+            <div class="section">
+                <div class="section-header">
+                    <h2>🔧 System Health</h2>
+                    <button class="btn" onclick="refreshSystem()">Check Health</button>
+                </div>
+                <div class="section-content">
+                    <div id="systemContent">
+                        <div class="loading">Loading system information...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://y0h0i3cymoo0.manus.space/api';
+        
+        // Check authentication
+        function checkAuth() {
+            if (localStorage.getItem('adminLoggedIn') !== 'true') {
+                window.location.href = '/admin.html';
+                return false;
+            }
+            
+            const adminUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
+            document.getElementById('adminName').textContent = adminUser.name || 'Admin User';
+            return true;
+        }
+        
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminUser');
+            window.location.href = '/admin.html';
+        }
+        
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Load tab content
+            if (tabName === 'overview') loadOverview();
+            if (tabName === 'users') loadUsers();
+            if (tabName === 'system') loadSystem();
+        }
+        
+        async function fetchData(endpoint) {
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`, {
+                    credentials: 'include'
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                return { error: error.message };
+            }
+        }
+        
+        async function loadStats() {
+            try {
+                const stats = await fetchData('/admin/public/stats');
+                if (stats.success) {
+                    document.getElementById('totalUsers').textContent = stats.stats.total_users || 0;
+                    document.getElementById('totalLeads').textContent = stats.stats.total_leads || 0;
+                    document.getElementById('activeCampaigns').textContent = stats.stats.active_campaigns || 0;
+                }
+                
+                const health = await fetchData('/admin/public/health');
+                if (health.success) {
+                    document.getElementById('systemHealth').textContent = health.health.database === 'healthy' ? '✅ Online' : '❌ Offline';
+                }
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+        
+        async function loadOverview() {
+            const content = document.getElementById('overviewContent');
+            content.innerHTML = '<div class="loading">Loading overview data...</div>';
+            
+            try {
+                const stats = await fetchData('/admin/public/stats');
+                const health = await fetchData('/admin/public/health');
+                
+                content.innerHTML = `
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                        <div>
+                            <h3 style="margin-bottom: 16px; color: #1e293b;">📈 Statistics</h3>
+                            <p><strong>Total Users:</strong> ${stats.success ? stats.stats.total_users : 'Error'}</p>
+                            <p><strong>Total Leads:</strong> ${stats.success ? stats.stats.total_leads : 'Error'}</p>
+                            <p><strong>Active Campaigns:</strong> ${stats.success ? stats.stats.active_campaigns : 'Error'}</p>
+                            <p><strong>New Users (30d):</strong> ${stats.success ? stats.stats.new_users_30d : 'Error'}</p>
+                            <p><strong>Active Users (7d):</strong> ${stats.success ? stats.stats.active_users_7d : 'Error'}</p>
+                        </div>
+                        <div>
+                            <h3 style="margin-bottom: 16px; color: #1e293b;">🏥 System Health</h3>
+                            <p><strong>Database:</strong> ${health.success ? health.health.database : 'Error'}</p>
+                            <p><strong>Recent Activity:</strong> ${health.success ? health.health.recent_activity_1h + ' in last hour' : 'Error'}</p>
+                            <p><strong>Uptime:</strong> ${health.success ? health.health.uptime || 'Running' : 'Error'}</p>
+                            <p><strong>Memory:</strong> ${health.success ? health.health.memory_usage || 'Normal' : 'Error'}</p>
+                            <p><strong>Last Check:</strong> ${health.success ? new Date(health.health.timestamp).toLocaleString() : 'Error'}</p>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                content.innerHTML = '<div class="error">Failed to load overview data</div>';
+            }
+        }
+        
+        async function loadUsers() {
+            const content = document.getElementById('usersContent');
+            content.innerHTML = '<div class="loading">Loading users...</div>';
+            
+            try {
+                const users = await fetchData('/admin/public/users');
+                
+                if (users.success && users.users.length > 0) {
+                    content.innerHTML = `
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Provider</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${users.users.map(user => `
+                                    <tr>
+                                        <td>${user.name}</td>
+                                        <td>${user.email}</td>
+                                        <td><span class="badge ${user.role === 'admin' ? 'badge-admin' : 'badge-user'}">${user.role}</span></td>
+                                        <td>${user.provider}</td>
+                                        <td>${new Date(user.created_at).toLocaleDateString()}</td>
+                                        <td>
+                                            <button class="btn btn-secondary" onclick="viewUser(${user.id})">View</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                } else {
+                    content.innerHTML = '<div class="error">No users found or failed to load users</div>';
+                }
+            } catch (error) {
+                content.innerHTML = '<div class="error">Failed to load users</div>';
+            }
+        }
+        
+        async function loadSystem() {
+            const content = document.getElementById('systemContent');
+            content.innerHTML = '<div class="loading">Loading system information...</div>';
+            
+            try {
+                const health = await fetchData('/admin/public/health');
+                
+                content.innerHTML = `
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                        <div>
+                            <h3 style="margin-bottom: 16px; color: #1e293b;">🔧 System Status</h3>
+                            <p><strong>Database Status:</strong> <span style="color: ${health.success && health.health.database === 'healthy' ? 'green' : 'red'}">${health.success ? health.health.database : 'Error'}</span></p>
+                            <p><strong>API Status:</strong> <span style="color: green">Running</span></p>
+                            <p><strong>Backend Status:</strong> <span style="color: green">Online</span></p>
+                            <p><strong>Last Health Check:</strong> ${health.success ? new Date(health.health.timestamp).toLocaleString() : 'Error'}</p>
+                        </div>
+                        <div>
+                            <h3 style="margin-bottom: 16px; color: #1e293b;">📊 Performance</h3>
+                            <p><strong>Recent Activity:</strong> ${health.success ? health.health.recent_activity_1h + ' activities in last hour' : 'Error'}</p>
+                            <p><strong>Memory Usage:</strong> ${health.success ? health.health.memory_usage || 'Normal' : 'Error'}</p>
+                            <p><strong>Uptime:</strong> ${health.success ? health.health.uptime || 'Running' : 'Error'}</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 24px;">
+                        <h3 style="margin-bottom: 16px; color: #1e293b;">🔗 API Endpoints</h3>
+                        <p><strong>Admin API:</strong> ${API_BASE}/admin/</p>
+                        <p><strong>Public Stats:</strong> ${API_BASE}/admin/public/stats</p>
+                        <p><strong>Health Check:</strong> ${API_BASE}/admin/public/health</p>
+                        <p><strong>Users API:</strong> ${API_BASE}/admin/public/users</p>
+                    </div>
+                `;
+            } catch (error) {
+                content.innerHTML = '<div class="error">Failed to load system information</div>';
+            }
+        }
+        
+        function viewUser(userId) {
+            alert(`Viewing user details for user ID: ${userId}`);
+        }
+        
+        function refreshData() {
+            loadStats();
+            loadOverview();
+        }
+        
+        function refreshUsers() {
+            loadUsers();
+        }
+        
+        function refreshSystem() {
+            loadSystem();
+        }
+        
+        // Initialize
+        if (checkAuth()) {
+            loadStats();
+            loadOverview();
+        }
+    </script>
+</body>
+</html>
+

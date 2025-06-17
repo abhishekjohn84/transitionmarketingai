@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './App.css'
 import { AboutPage, ServicesPage, CaseStudiesPage, BlogPage, ContactPage, FAQPage, HowItWorksPage } from './pages.jsx'
 import { Dashboard } from './Dashboard.jsx'
+import { SocialAuthButtons } from './SocialAuth.jsx'
 
 function App() {
   const [showSignupModal, setShowSignupModal] = useState(false)
@@ -10,6 +11,107 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
+
+  // API Configuration
+  const API_BASE = 'https://y0h0i3cymoo0.manus.space/api'
+
+  const handleSocialLogin = async (userData) => {
+    try {
+      const response = await fetch(`${API_BASE}/auth/social`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          provider: userData.provider,
+          name: userData.name,
+          email: userData.email,
+          avatar_url: userData.avatar,
+          provider_id: userData.provider_id || 'demo_' + Date.now()
+        })
+      })
+
+      const data = await response.json()
+      
+      if (data.success) {
+        setUser(data.user)
+        setIsLoggedIn(true)
+        setShowLoginModal(false)
+        setShowSignupModal(false)
+        setCurrentPage('dashboard')
+      } else {
+        alert('Social login failed: ' + data.error)
+      }
+    } catch (error) {
+      console.error('Social login error:', error)
+      alert('Social login failed')
+    }
+  }
+
+  const handleEmailLogin = async (email, password) => {
+    try {
+      const response = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      })
+
+      const data = await response.json()
+      
+      if (data.success) {
+        setUser(data.user)
+        setIsLoggedIn(true)
+        setShowLoginModal(false)
+        setCurrentPage('dashboard')
+      } else {
+        alert('Login failed: ' + data.error)
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+      alert('Login failed')
+    }
+  }
+
+  const handleEmailSignup = async (email, password, name, company) => {
+    try {
+      const response = await fetch(`${API_BASE}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password, name, company })
+      })
+
+      const data = await response.json()
+      
+      if (data.success) {
+        setUser(data.user)
+        setIsLoggedIn(true)
+        setShowSignupModal(false)
+        setCurrentPage('dashboard')
+      } else {
+        alert('Registration failed: ' + data.error)
+      }
+    } catch (error) {
+      console.error('Registration error:', error)
+      alert('Registration failed')
+    }
+  }
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${API_BASE}/auth/logout`, { method: 'POST' })
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+    
+    setUser(null)
+    setIsLoggedIn(false)
+    setCurrentPage('home')
+  }etCurrentPage('dashboard')
+  }
 
   const services = [
     {
@@ -668,18 +770,7 @@ function App() {
               const formData = new FormData(e.target)
               const email = formData.get('email')
               const password = formData.get('password')
-              
-              // Simple demo authentication - in real app, this would call your backend
-              if (email && password) {
-                setUser({
-                  name: email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1),
-                  email: email,
-                  company: 'Demo Company'
-                })
-                setIsLoggedIn(true)
-                setShowLoginModal(false)
-                setCurrentPage('dashboard')
-              }
+              handleEmailLogin(email, password)
             }} className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
@@ -719,21 +810,24 @@ function App() {
               >
                 Sign In
               </button>
-              
-              <div className="text-center">
-                <span className="text-gray-600">Don't have an account? </span>
-                <button 
-                  type="button"
-                  onClick={() => {
-                    setShowLoginModal(false)
-                    setShowSignupModal(true)
-                  }}
-                  className="text-orange-500 hover:text-orange-600 font-medium"
-                >
-                  Sign up
-                </button>
-              </div>
             </form>
+            
+            {/* Social Authentication */}
+            <SocialAuthButtons onSocialLogin={handleSocialLogin} isSignup={false} />
+            
+            <div className="text-center mt-6">
+              <span className="text-gray-600">Don't have an account? </span>
+              <button 
+                type="button"
+                onClick={() => {
+                  setShowLoginModal(false)
+                  setShowSignupModal(true)
+                }}
+                className="text-orange-500 hover:text-orange-600 font-medium"
+              >
+                Sign up
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -758,19 +852,8 @@ function App() {
               const name = formData.get('name')
               const email = formData.get('email')
               const company = formData.get('company')
-              
-              // Simple demo registration - in real app, this would call your backend
-              if (name && email) {
-                setUser({
-                  name: name,
-                  email: email,
-                  company: company || 'Your Company'
-                })
-                setIsLoggedIn(true)
-                setShowSignupModal(false)
-                setCurrentPage('dashboard')
-                alert('Welcome to GROWTHFLOW! Your account has been created successfully.')
-              }
+              const password = formData.get('password')
+              handleEmailSignup(email, password, name, company)
             }} className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
@@ -830,21 +913,24 @@ function App() {
               >
                 Create Account
               </button>
-              
-              <div className="text-center">
-                <span className="text-gray-600">Already have an account? </span>
-                <button 
-                  type="button"
-                  onClick={() => {
-                    setShowSignupModal(false)
-                    setShowLoginModal(true)
-                  }}
-                  className="text-orange-500 hover:text-orange-600 font-medium"
-                >
-                  Sign in
-                </button>
-              </div>
             </form>
+            
+            {/* Social Authentication */}
+            <SocialAuthButtons onSocialLogin={handleSocialLogin} isSignup={true} />
+            
+            <div className="text-center mt-6">
+              <span className="text-gray-600">Already have an account? </span>
+              <button 
+                type="button"
+                onClick={() => {
+                  setShowSignupModal(false)
+                  setShowLoginModal(true)
+                }}
+                className="text-orange-500 hover:text-orange-600 font-medium"
+              >
+                Sign in
+              </button>
+            </div>
           </div>
         </div>
       )}
