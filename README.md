@@ -1,11 +1,11 @@
-# GROWTHFLOW Website
+# TransitionMarketingAI Website
 
-Complete marketing automation platform website for Indian businesses.
+Complete AI-powered marketing automation platform website for Indian businesses.
 
 ## Version
 Current Version: 1.07.0
 
-**Latest Update:** Successfully connected to GitHub with automatic versioning system!
+**Latest Update:** Successfully deployed to GitHub Pages with automatic versioning system!
 
 ## Features
 - Hero section with consultation form
@@ -13,16 +13,21 @@ Current Version: 1.07.0
 - Service pages and case studies
 - Mobile responsive design
 - Lead generation optimization
+- User authentication and CRM dashboard
+- AI-powered business transformation tools
 
 ## Development
 ```bash
-npm run dev    # Start development server
-npm run build  # Build for production
+pnpm install   # Install dependencies
+pnpm run dev   # Start development server
+pnpm run build # Build for production
 ```
 
 ## Deployment
-Deployed at: https://nqigurbq.manus.space
+- **Staging**: http://demo.transitionmarketingai.com
+- **Production**: https://transitionmarketingai.com
 
 ## Version History
+- v1.07.0 - Complete TransitionMarketingAI rebrand and GitHub Pages deployment
 - v1.01.0 - Initial release with complete agency website structure
 

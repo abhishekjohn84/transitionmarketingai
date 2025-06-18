@@ -1,83 +1,56 @@
-# GROWTHFLOW Website Version Control Guide
+# TransitionMarketingAI Website Version Control Guide
 
-## Current Setup
-- **Repository**: GROWTHFLOW Website
-- **Current Version**: 1.01.0
-- **Versioning**: Auto-increment by 0.01 each push
+## Repository Information
+- **Repository**: TransitionMarketingAI Website
+- **Platform**: GitHub Pages
+- **Deployment**: Automatic via GitHub Actions
 
-## Quick Commands
+## Version Control Workflow
 
-### 1. Quick Push with Auto-Versioning
+### 1. Development Process
 ```bash
-./quick-push.sh "Your commit message here"
-```
-**Example:**
-```bash
-./quick-push.sh "Added new contact form validation"
-```
+# Make changes to source files
+# Test locally with: pnpm run dev
 
-This will:
-- Increment version from 1.01.0 → 1.02.0
-- Update package.json and README.md
-- Create commit with your message
-- Create version tag (v1.02.0)
-- Push everything to GitHub
-
-### 2. Manual Version Control
-```bash
-# Check current version
-node -p "require('./package.json').version"
-
-# Add files
+# Stage changes
 git add .
 
-# Commit
-git commit -m "Your message"
+# Commit with descriptive message
+git commit -m "Description of changes"
 
-# Push
+# Push to trigger deployment
 git push origin main
 ```
 
-### 3. View Version History
-```bash
-cat version_history.txt
+### 2. Automatic Deployment
+- Every push to `main` branch triggers GitHub Actions
+- Site builds automatically with pnpm
+- Deploys to GitHub Pages at demo.transitionmarketingai.com
+
+### 3. Version Management
+- Use semantic versioning (MAJOR.MINOR.PATCH)
+- Update version in package.json for releases
+- Tag important releases: `git tag v1.0.0`
+
+## File Structure
+```
+src/
+├── App.jsx          # Main application component
+├── pages.jsx        # Individual page components
+├── App.css          # Styling
+└── main.jsx         # Entry point
+
+public/
+├── CNAME           # Custom domain configuration
+└── index.html      # HTML template
+
+.github/workflows/
+└── deploy.yml      # GitHub Actions deployment
 ```
 
-## Version Format
-- **Format**: X.YY.Z (e.g., 1.01.0, 1.02.0, 1.15.0)
-- **Increment**: +0.01 each push (minor version)
-- **Tags**: Each version gets a Git tag (v1.01.0, v1.02.0, etc.)
-
-## Files Updated Automatically
-- `package.json` - Version field
-- `README.md` - Current Version line
-- `version_history.txt` - Version log with timestamps
-
-## GitHub Integration
-- **Main Branch**: All pushes go to `main`
-- **Tags**: Each version creates a GitHub release tag
-- **History**: Full commit history with version increments
-
-## Usage Examples
-
-### Adding a new feature:
-```bash
-./quick-push.sh "Added FAQ page with 8 comprehensive questions"
-```
-
-### Fixing a bug:
-```bash
-./quick-push.sh "Fixed mobile responsive issues in hero section"
-```
-
-### Updating content:
-```bash
-./quick-push.sh "Updated pricing plans and service descriptions"
-```
-
-## Notes
-- Always use descriptive commit messages
-- Version increments automatically - no manual version editing needed
-- Each push creates a permanent version tag for easy rollbacks
-- Version history is maintained in `version_history.txt`
+## Best Practices
+- Test all changes locally before pushing
+- Use descriptive commit messages
+- Keep components modular and reusable
+- Maintain consistent branding throughout
 
