@@ -4,10 +4,12 @@ import { AboutPage, ServicesPage, CaseStudiesPage, BlogPage, ContactPage, FAQPag
 import { Dashboard } from './Dashboard.jsx'
 import { SocialAuthButtons } from './SocialAuth.jsx'
 import AdminPanel from './AdminPanel.jsx'
+import Login from './pages/Login.jsx'
+import Signup from './pages/Signup.jsx'
+import CRM from './pages/CRM.jsx'
+import Admin from './pages/Admin.jsx'
 
 function App() {
-  const [showSignupModal, setShowSignupModal] = useState(false)
-  const [showLoginModal, setShowLoginModal] = useState(false)
   const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [selectedServices, setSelectedServices] = useState([])
   const [currentPage, setCurrentPage] = useState('home')
@@ -198,7 +200,7 @@ function App() {
 
   // Render different pages based on currentPage state
   if (currentPage === 'dashboard') return <Dashboard user={user} />
-  if (currentPage === 'admin') return <AdminPanel />
+  if (currentPage === 'admin') return <Admin onNavigate={navigateTo} />
   if (currentPage === 'about') return <AboutPage />
   if (currentPage === 'services') return <ServicesPage />
   if (currentPage === 'case-studies') return <CaseStudiesPage />
@@ -206,6 +208,17 @@ function App() {
   if (currentPage === 'contact') return <ContactPage />
   if (currentPage === 'faq') return <FAQPage />
   if (currentPage === 'how-it-works') return <HowItWorksPage />
+  if (currentPage === 'login') return <Login onLogin={(userData) => {
+    setUser(userData);
+    setIsLoggedIn(true);
+    navigateTo('dashboard');
+  }} onNavigate={navigateTo} />
+  if (currentPage === 'signup') return <Signup onSignup={(userData) => {
+    setUser(userData);
+    setIsLoggedIn(true);
+    navigateTo('dashboard');
+  }} onNavigate={navigateTo} />
+  if (currentPage === 'crm') return <CRM user={user} onNavigate={navigateTo} />
 
   return (
     <div className="min-h-screen bg-white">
@@ -250,13 +263,13 @@ function App() {
               {!isLoggedIn ? (
                 <>
                   <button 
-                    onClick={() => setShowLoginModal(true)}
+                    onClick={() => navigateTo('login')}
                     className="text-orange-500 border border-orange-500 px-3 py-1.5 rounded-lg hover:bg-orange-50 transition-colors font-medium text-sm"
                   >
                     Login
                   </button>
                   <button 
-                    onClick={() => setShowSignupModal(true)}
+                    onClick={() => navigateTo('signup')}
                     className="bg-orange-500 text-white px-4 py-1.5 rounded-lg hover:bg-orange-600 transition-colors font-medium text-sm"
                   >
                     Get Free Consultation
@@ -265,10 +278,10 @@ function App() {
               ) : (
                 <>
                   <button 
-                    onClick={() => setCurrentPage('dashboard')}
+                    onClick={() => navigateTo('crm')}
                     className="text-orange-500 border border-orange-500 px-6 py-2 rounded-lg hover:bg-orange-50 transition-colors font-medium"
                   >
-                    Dashboard
+                    CRM Dashboard
                   </button>
                   <div className="flex items-center space-x-3">
                     <span className="text-gray-700">Welcome, {user?.name || 'User'}</span>
@@ -348,13 +361,13 @@ function App() {
                 {!isLoggedIn ? (
                   <>
                     <button 
-                      onClick={() => { setShowLoginModal(true); setShowMobileMenu(false); }}
+                      onClick={() => { navigateTo('login'); setShowMobileMenu(false); }}
                       className="block w-full text-center px-4 py-3 text-orange-500 border border-orange-500 rounded-lg hover:bg-orange-50 transition-colors font-medium"
                     >
                       Login
                     </button>
                     <button 
-                      onClick={() => { setShowSignupModal(true); setShowMobileMenu(false); }}
+                      onClick={() => { navigateTo('signup'); setShowMobileMenu(false); }}
                       className="block w-full text-center px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium"
                     >
                       Get Free Consultation
@@ -363,10 +376,10 @@ function App() {
                 ) : (
                   <>
                     <button 
-                      onClick={() => { setCurrentPage('dashboard'); setShowMobileMenu(false); }}
+                      onClick={() => { navigateTo('crm'); setShowMobileMenu(false); }}
                       className="block w-full text-center px-4 py-3 text-orange-500 border border-orange-500 rounded-lg hover:bg-orange-50 transition-colors font-medium"
                     >
-                      Dashboard
+                      CRM Dashboard
                     </button>
                     <div className="px-4 py-3 text-center text-gray-700">
                       Welcome, {user?.name || 'User'}
@@ -677,7 +690,7 @@ function App() {
                 Join 500+ Indian businesses that have transformed their marketing with T R A N S I T I O N &nbsp; M A R K E T I N G &nbsp; A I
               </p>
               <button 
-                onClick={() => setShowSignupModal(true)}
+                onClick={() => navigateTo('signup')}
                 className="bg-orange-500 text-white px-8 py-4 rounded-lg hover:bg-orange-600 transition-colors font-medium text-lg"
               >
                 Get Your Free Consultation
@@ -766,7 +779,7 @@ function App() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
-              onClick={() => setShowSignupModal(true)}
+              onClick={() => navigateTo('signup')}
               className="bg-white text-orange-500 px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors font-medium text-lg"
             >
               Get Free Consultation
@@ -840,281 +853,6 @@ function App() {
           </div>
         </div>
       </footer>
-
-      {/* Signup Modal */}
-      {showSignupModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Start Your Free Trial</h2>
-              <button 
-                onClick={() => setShowSignupModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                ✕
-              </button>
-            </div>
-            
-            <p className="text-gray-600 mb-6">
-              Start your 14-day free trial. No credit card required.
-            </p>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                <input 
-                  type="text" 
-                  name="fullName"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="Enter your full name"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                <input 
-                  type="email" 
-                  name="email"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="Enter your email"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
-                <input 
-                  type="text" 
-                  name="company"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="Enter your company name"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                <input 
-                  type="tel" 
-                  name="phone"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="Enter your phone number"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">Services You're Interested In</label>
-                <div className="space-y-2">
-                  {services.map((service) => (
-                    <label key={service.id} className="flex items-center">
-                      <input 
-                        type="checkbox" 
-                        checked={selectedServices.includes(service.id)}
-                        onChange={() => handleServiceToggle(service.id)}
-                        className="mr-3 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
-                      />
-                      <span className="text-gray-700">{service.name}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-              
-              <button 
-                type="submit"
-                className="w-full bg-orange-500 text-white py-4 px-6 rounded-lg hover:bg-orange-600 transition-colors font-medium text-lg"
-              >
-                Get Free Consultation
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Login Modal */}
-      {showLoginModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Welcome Back</h2>
-              <button 
-                onClick={() => setShowLoginModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                ✕
-              </button>
-            </div>
-            
-            <form onSubmit={(e) => {
-              e.preventDefault()
-              const formData = new FormData(e.target)
-              const email = formData.get('email')
-              const password = formData.get('password')
-              handleEmailLogin(email, password)
-            }} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                <input 
-                  type="email"
-                  name="email"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="Enter your email"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                <input 
-                  type="password"
-                  name="password"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="Enter your password"
-                />
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <label className="flex items-center">
-                  <input type="checkbox" className="mr-2 rounded border-gray-300 text-orange-500 focus:ring-orange-500" />
-                  <span className="text-sm text-gray-700">Remember me</span>
-                </label>
-                <button type="button" className="text-sm text-orange-500 hover:text-orange-600">
-                  Forgot password?
-                </button>
-              </div>
-              
-              <button 
-                type="submit"
-                className="w-full bg-orange-500 text-white py-4 px-6 rounded-lg hover:bg-orange-600 transition-colors font-medium text-lg"
-              >
-                Sign In
-              </button>
-            </form>
-            
-            {/* Social Authentication */}
-            <SocialAuthButtons onSocialLogin={handleSocialLogin} isSignup={false} />
-            
-            <div className="text-center mt-6">
-              <span className="text-gray-600">Don't have an account? </span>
-              <button 
-                type="button"
-                onClick={() => {
-                  setShowLoginModal(false)
-                  setShowSignupModal(true)
-                }}
-                className="text-orange-500 hover:text-orange-600 font-medium"
-              >
-                Sign up
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Updated Signup Modal */}
-      {showSignupModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Create Account</h2>
-              <button 
-                onClick={() => setShowSignupModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                ✕
-              </button>
-            </div>
-            
-            <form onSubmit={(e) => {
-              e.preventDefault()
-              const formData = new FormData(e.target)
-              const name = formData.get('name')
-              const email = formData.get('email')
-              const company = formData.get('company')
-              const password = formData.get('password')
-              handleEmailSignup(email, password, name, company)
-            }} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                <input 
-                  type="text"
-                  name="name"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="Enter your full name"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                <input 
-                  type="email"
-                  name="email"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="Enter your email"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
-                <input 
-                  type="text"
-                  name="company"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="Enter your company name"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                <input 
-                  type="password"
-                  name="password"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="Create a password"
-                />
-              </div>
-              
-              <div>
-                <label className="flex items-center">
-                  <input type="checkbox" required className="mr-2 rounded border-gray-300 text-orange-500 focus:ring-orange-500" />
-                  <span className="text-sm text-gray-700">
-                    I agree to the <button type="button" className="text-orange-500 hover:text-orange-600">Terms of Service</button> and <button type="button" className="text-orange-500 hover:text-orange-600">Privacy Policy</button>
-                  </span>
-                </label>
-              </div>
-              
-              <button 
-                type="submit"
-                className="w-full bg-orange-500 text-white py-4 px-6 rounded-lg hover:bg-orange-600 transition-colors font-medium text-lg"
-              >
-                Create Account
-              </button>
-            </form>
-            
-            {/* Social Authentication */}
-            <SocialAuthButtons onSocialLogin={handleSocialLogin} isSignup={true} />
-            
-            <div className="text-center mt-6">
-              <span className="text-gray-600">Already have an account? </span>
-              <button 
-                type="button"
-                onClick={() => {
-                  setShowSignupModal(false)
-                  setShowLoginModal(true)
-                }}
-                className="text-orange-500 hover:text-orange-600 font-medium"
-              >
-                Sign in
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

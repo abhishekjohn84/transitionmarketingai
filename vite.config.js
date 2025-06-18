@@ -22,4 +22,14 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    allowedHosts: [
+      '5173-i9l4vaxy1hlnjk7y22wy6-72bda4a3.manusvm.computer',
+      'localhost',
+      '127.0.0.1'
+    ],
+    cors: true,
+    strictPort: true,
+    port: 5173,
+  },
 })
