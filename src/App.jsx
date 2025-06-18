@@ -15,7 +15,7 @@ function App() {
   const [user, setUser] = useState(null)
 
   // API Configuration
-  const API_BASE = 'https://y0h0i3cymoo0.manus.space/api'
+  const API_BASE = 'https://5001-ip4awxeg3jsfu5k4snnx2-72bda4a3.manusvm.computer/api'
 
   const handleSocialLogin = async (userData) => {
     try {
@@ -62,7 +62,7 @@ function App() {
 
       const data = await response.json()
       
-      if (data.success) {
+      if (response.ok) {
         setUser(data.user)
         setIsLoggedIn(true)
         setShowLoginModal(false)
@@ -83,16 +83,22 @@ function App() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password, name, company })
+        body: JSON.stringify({ 
+          full_name: name, 
+          email: email, 
+          company_name: company,
+          password: password 
+        })
       })
 
       const data = await response.json()
       
-      if (data.success) {
+      if (response.ok) {
         setUser(data.user)
         setIsLoggedIn(true)
         setShowSignupModal(false)
         setCurrentPage('dashboard')
+        alert(`Welcome to TransitionMarketingAI! Your account has been created successfully.`)
       } else {
         alert('Registration failed: ' + data.error)
       }
@@ -145,13 +151,44 @@ function App() {
     }
   ]
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData(e.target)
     const data = Object.fromEntries(formData)
     
-    alert(`Thank you for your interest! We'll contact you within 24 hours to discuss your marketing automation needs and provide a custom strategy.`)
-    setShowSignupModal(false)
+    // Collect selected services
+    const services = []
+    if (data['marketing-automation']) services.push('Marketing Automation')
+    if (data['lead-generation']) services.push('Lead Generation Systems')
+    if (data['custom-development']) services.push('Custom Development')
+    if (data['ai-integration']) services.push('AI Integration Services')
+    
+    try {
+      const response = await fetch(`${API_BASE}/leads`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          services_interested: services,
+          message: data.message || '',
+          source: 'website'
+        })
+      })
+      
+      if (response.ok) {
+        alert(`Thank you ${data.name}! Your consultation request has been submitted successfully. We'll contact you within 24 hours to discuss your marketing automation needs and provide a custom strategy.`)
+        e.target.reset() // Clear the form
+      } else {
+        throw new Error('Failed to submit form')
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      alert('There was an error submitting your request. Please try again or contact us directly.')
+    }
   }
 
   // Navigation function
