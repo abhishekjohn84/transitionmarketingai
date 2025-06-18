@@ -1,5 +1,5 @@
 name: Deploy to GitHub Pages
-
+# Updated to fix deployment - [current date]
 on:
   push:
     branches: [ main, master ]
