@@ -3,10 +3,12 @@ import './App.css'
 import { AboutPage, ServicesPage, CaseStudiesPage, BlogPage, ContactPage, FAQPage, HowItWorksPage } from './pages.jsx'
 import { Dashboard } from './Dashboard.jsx'
 import { SocialAuthButtons } from './SocialAuth.jsx'
+import AdminPanel from './AdminPanel.jsx'
 
 function App() {
   const [showSignupModal, setShowSignupModal] = useState(false)
   const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [selectedServices, setSelectedServices] = useState([])
   const [currentPage, setCurrentPage] = useState('home')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -160,6 +162,7 @@ function App() {
 
   // Render different pages based on currentPage state
   if (currentPage === 'dashboard') return <Dashboard user={user} />
+  if (currentPage === 'admin') return <AdminPanel />
   if (currentPage === 'about') return <AboutPage />
   if (currentPage === 'services') return <ServicesPage />
   if (currentPage === 'case-studies') return <CaseStudiesPage />
@@ -171,38 +174,54 @@ function App() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-white shadow-sm border-b sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+          <div className="flex justify-between items-center py-3">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">📈</span>
+              <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">🤖</span>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">GROWTHFLOW</h1>
-                <p className="text-sm text-gray-600">Automate Your Growth</p>
+                <h1 className="text-lg font-bold text-gray-900">TRANSITIONMARKETINGAI</h1>
+                <p className="text-xs text-gray-600">AI-Powered Business Transformation</p>
               </div>
             </div>
-            <nav className="hidden md:flex space-x-6">
-              <button onClick={() => navigateTo('home')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium">Home</button>
-              <button onClick={() => navigateTo('about')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium">About</button>
-              <button onClick={() => navigateTo('services')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium">Services</button>
-              <button onClick={() => navigateTo('case-studies')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium">Case Studies</button>
-              <button onClick={() => navigateTo('faq')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium">FAQ</button>
-              <button onClick={() => navigateTo('contact')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium">Contact</button>
+            
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-8">
+              <button onClick={() => navigateTo('home')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium text-sm">Home</button>
+              <button onClick={() => navigateTo('about')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium text-sm">About</button>
+              <button onClick={() => navigateTo('services')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium text-sm">Services</button>
+              <button onClick={() => navigateTo('case-studies')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium text-sm">Case Studies</button>
+              <button onClick={() => navigateTo('faq')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium text-sm">FAQ</button>
+              <button onClick={() => navigateTo('contact')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium text-sm">Contact</button>
             </nav>
-            <div className="flex space-x-3">
+
+            {/* Mobile/Tablet Hamburger Menu */}
+            <div className="lg:hidden">
+              <button 
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                className="p-2 rounded-md text-gray-700 hover:text-orange-500 hover:bg-gray-100 transition-colors"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Desktop Action Buttons */}
+            <div className="hidden lg:flex items-center space-x-3">
               {!isLoggedIn ? (
                 <>
                   <button 
                     onClick={() => setShowLoginModal(true)}
-                    className="text-orange-500 border border-orange-500 px-4 py-2 rounded-lg hover:bg-orange-50 transition-colors font-medium"
+                    className="text-orange-500 border border-orange-500 px-3 py-1.5 rounded-lg hover:bg-orange-50 transition-colors font-medium text-sm"
                   >
                     Login
                   </button>
                   <button 
                     onClick={() => setShowSignupModal(true)}
-                    className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors font-medium"
+                    className="bg-orange-500 text-white px-4 py-1.5 rounded-lg hover:bg-orange-600 transition-colors font-medium text-sm"
                   >
                     Get Free Consultation
                   </button>
@@ -235,26 +254,127 @@ function App() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-gray-50 to-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div className="inline-flex items-center px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
-                🚀 Complete Marketing Automation for Indian Businesses
+      {/* Mobile Menu Overlay */}
+      {showMobileMenu && (
+        <div className="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50" onClick={() => setShowMobileMenu(false)}>
+          <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
+            <div className="flex justify-between items-center p-4 border-b">
+              <h2 className="text-lg font-semibold text-gray-900">Menu</h2>
+              <button 
+                onClick={() => setShowMobileMenu(false)}
+                className="p-2 rounded-md text-gray-700 hover:text-orange-500 hover:bg-gray-100"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            <nav className="p-4 space-y-4">
+              <button 
+                onClick={() => { navigateTo('home'); setShowMobileMenu(false); }}
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors font-medium"
+              >
+                Home
+              </button>
+              <button 
+                onClick={() => { navigateTo('about'); setShowMobileMenu(false); }}
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors font-medium"
+              >
+                About
+              </button>
+              <button 
+                onClick={() => { navigateTo('services'); setShowMobileMenu(false); }}
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors font-medium"
+              >
+                Services
+              </button>
+              <button 
+                onClick={() => { navigateTo('case-studies'); setShowMobileMenu(false); }}
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors font-medium"
+              >
+                Case Studies
+              </button>
+              <button 
+                onClick={() => { navigateTo('faq'); setShowMobileMenu(false); }}
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors font-medium"
+              >
+                FAQ
+              </button>
+              <button 
+                onClick={() => { navigateTo('contact'); setShowMobileMenu(false); }}
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors font-medium"
+              >
+                Contact
+              </button>
+              
+              <div className="border-t pt-4 space-y-3">
+                {!isLoggedIn ? (
+                  <>
+                    <button 
+                      onClick={() => { setShowLoginModal(true); setShowMobileMenu(false); }}
+                      className="block w-full text-center px-4 py-3 text-orange-500 border border-orange-500 rounded-lg hover:bg-orange-50 transition-colors font-medium"
+                    >
+                      Login
+                    </button>
+                    <button 
+                      onClick={() => { setShowSignupModal(true); setShowMobileMenu(false); }}
+                      className="block w-full text-center px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium"
+                    >
+                      Get Free Consultation
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button 
+                      onClick={() => { setCurrentPage('dashboard'); setShowMobileMenu(false); }}
+                      className="block w-full text-center px-4 py-3 text-orange-500 border border-orange-500 rounded-lg hover:bg-orange-50 transition-colors font-medium"
+                    >
+                      Dashboard
+                    </button>
+                    <div className="px-4 py-3 text-center text-gray-700">
+                      Welcome, {user?.name || 'User'}
+                    </div>
+                    <button 
+                      onClick={() => {
+                        setIsLoggedIn(false)
+                        setUser(null)
+                        setCurrentPage('home')
+                        setShowMobileMenu(false)
+                      }}
+                      className="block w-full text-center px-4 py-3 text-gray-500 hover:text-gray-700 transition-colors"
+                    >
+                      Logout
+                    </button>
+                  </>
+                )}
               </div>
-              <h1 className="text-5xl font-bold text-gray-900 leading-tight">
-                Automate Your Marketing,{' '}
-                <span className="text-orange-500">Accelerate Your Growth</span>
+            </nav>
+          </div>
+        </div>
+      )}
+
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-gray-50 to-white min-h-screen flex items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+            {/* Left Content */}
+            <div className="space-y-6">
+              <div className="inline-flex items-center px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
+                🤖 AI-Powered Digital Transformation for Indian Businesses
+              </div>
+              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">
+                Transition to AI-Powered{' '}
+                <span className="text-orange-500">Marketing Automation</span>
               </h1>
-              <p className="text-xl text-gray-600 leading-relaxed">
-                The complete marketing automation platform built specifically for Indian businesses. 
-                Email campaigns, social media management, lead generation, and CRM - all in one place.
+              <p className="text-lg text-gray-600 leading-relaxed max-w-lg">
+                Help your business transition to AI-powered marketing automation and custom development solutions. 
+                From marketing automation to custom websites, mobile apps, and intelligent systems - we build it all.
               </p>
-              <div className="flex items-center space-x-6 text-sm text-gray-600">
+              <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600">
                 <div className="flex items-center space-x-2">
                   <span className="text-green-500">✓</span>
-                  <span>14-day free trial</span>
+                  <span>Free consultation</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <span className="text-green-500">✓</span>
@@ -262,30 +382,30 @@ function App() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <span className="text-green-500">✓</span>
-                  <span>Setup in 5 minutes</span>
+                  <span>24hr response</span>
                 </div>
               </div>
               <div className="text-sm text-gray-500">
-                Trusted by <span className="font-semibold text-orange-500">500+</span> Indian businesses
+                Trusted by <span className="font-semibold text-orange-500">100+</span> Indian businesses transitioning to AI
               </div>
             </div>
             
-            {/* Simplified Consultation Form */}
-            <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-              <div className="text-center mb-4">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Get Free Consultation</h3>
+            {/* Right Form */}
+            <div className="bg-white rounded-xl shadow-xl p-8 border border-gray-100 max-w-md mx-auto lg:mx-0">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Get Free AI Consultation</h3>
                 <p className="text-sm text-gray-600">
-                  Get a callback within <span className="font-semibold text-orange-500">24 hours</span> from our growth consultants
+                  Get a callback within <span className="font-semibold text-orange-500">24 hours</span> from our AI transformation experts
                 </p>
               </div>
               
-              <form onSubmit={handleSubmit} className="space-y-3">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <input 
                     type="text" 
                     name="fullName"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
                     placeholder="Your Name"
                   />
                 </div>
@@ -295,7 +415,7 @@ function App() {
                     type="email" 
                     name="email"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
                     placeholder="Your Email"
                   />
                 </div>
@@ -305,40 +425,65 @@ function App() {
                     type="tel" 
                     name="phone"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-sm"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
                     placeholder="Your Phone Number"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Services You're Interested In:</label>
-                  <div className="space-y-1">
-                    {services.map((service) => (
-                      <label key={service.id} className="flex items-center text-sm">
-                        <input 
-                          type="checkbox" 
-                          name="services"
-                          value={service.id}
-                          className="mr-2 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
-                        />
-                        <span className="text-gray-700">{service.name}</span>
-                      </label>
-                    ))}
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Services You're Interested In:</label>
+                  <div className="space-y-2">
+                    <label className="flex items-center text-sm">
+                      <input 
+                        type="checkbox" 
+                        name="services"
+                        value="marketing-automation"
+                        className="mr-3 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+                      />
+                      <span className="text-gray-700">Marketing Automation</span>
+                    </label>
+                    <label className="flex items-center text-sm">
+                      <input 
+                        type="checkbox" 
+                        name="services"
+                        value="lead-generation"
+                        className="mr-3 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+                      />
+                      <span className="text-gray-700">Lead Generation Systems</span>
+                    </label>
+                    <label className="flex items-center text-sm">
+                      <input 
+                        type="checkbox" 
+                        name="services"
+                        value="custom-development"
+                        className="mr-3 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+                      />
+                      <span className="text-gray-700">Custom Development</span>
+                    </label>
+                    <label className="flex items-center text-sm">
+                      <input 
+                        type="checkbox" 
+                        name="services"
+                        value="ai-integration"
+                        className="mr-3 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+                      />
+                      <span className="text-gray-700">AI Integration Services</span>
+                    </label>
                   </div>
                 </div>
                 
                 <button 
                   type="submit"
-                  className="w-full bg-orange-500 text-white py-3 px-4 rounded-lg hover:bg-orange-600 transition-colors font-medium text-sm"
+                  className="w-full bg-orange-500 text-white py-3 px-6 rounded-lg hover:bg-orange-600 transition-colors font-medium text-lg"
                 >
                   Get Free Consultation
                 </button>
                 
-                <div className="text-center text-xs text-gray-500">
-                  <div className="mb-1">
+                <div className="text-center text-sm text-gray-500">
+                  <div className="mb-2">
                     <span className="font-semibold text-gray-700">No credit card required</span>
                   </div>
-                  <div className="flex items-center justify-center space-x-3">
+                  <div className="flex items-center justify-center space-x-4">
                     <span>🔒 Secure</span>
                     <span>📞 24hr Response</span>
                   </div>
@@ -418,7 +563,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              How <span className="text-orange-500">GROWTHFLOW</span> Works
+              How <span className="text-orange-500">TransitionMarketingAI</span> Works
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Our proven 4-step process to transform your marketing and accelerate your business growth
@@ -493,7 +638,7 @@ function App() {
             <div className="bg-white rounded-2xl p-8 max-w-2xl mx-auto shadow-lg">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Get Started?</h3>
               <p className="text-gray-600 mb-6">
-                Join 500+ Indian businesses that have transformed their marketing with GROWTHFLOW
+                Join 500+ Indian businesses that have transformed their marketing with TransitionMarketingAI
               </p>
               <button 
                 onClick={() => setShowSignupModal(true)}
@@ -537,7 +682,7 @@ function App() {
               {
                 name: "Rajesh Kumar",
                 company: "Kumar Real Estate",
-                review: "GROWTHFLOW transformed our lead generation. We're now getting 300% more qualified leads and our sales team is much more efficient.",
+                review: "TransitionMarketingAI transformed our lead generation. We're now getting 300% more qualified leads and our sales team is much more efficient.",
                 rating: 5,
                 result: "300% more leads"
               },
@@ -581,7 +726,7 @@ function App() {
             Ready to Accelerate Your Growth?
           </h2>
           <p className="text-xl text-orange-100 mb-8">
-            Join 500+ Indian businesses that have transformed their marketing with GROWTHFLOW
+            Join 500+ Indian businesses that have transformed their marketing with TransitionMarketingAI
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
@@ -604,8 +749,8 @@ function App() {
                   <span className="text-white font-bold text-lg">📈</span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold">GROWTHFLOW</h3>
-                  <p className="text-sm text-gray-400">Automate Your Growth</p>
+                  <h3 className="text-xl font-bold">TRANSITIONMARKETINGAI</h3>
+                  <p className="text-sm text-gray-400">AI-Powered Business Transformation</p>
                 </div>
               </div>
               <p className="text-gray-400 mb-4">
@@ -650,7 +795,7 @@ function App() {
           </div>
           
           <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400">© 2024 GROWTHFLOW. All rights reserved.</p>
+            <p className="text-gray-400">© 2024 TransitionMarketingAI. All rights reserved.</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <button className="text-gray-400 hover:text-white text-sm">Privacy Policy</button>
               <button className="text-gray-400 hover:text-white text-sm">Terms of Service</button>

@@ -11,8 +11,8 @@ const AboutPage = () => (
               <span className="text-white font-bold text-lg">📈</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">GROWTHFLOW</h1>
-              <p className="text-sm text-gray-600">Automate Your Growth</p>
+              <h1 className="text-xl font-bold text-gray-900">TRANSITIONMARKETINGAI</h1>
+              <p className="text-sm text-gray-600">AI-Powered Business Transformation</p>
             </div>
           </div>
           <button 
@@ -28,7 +28,7 @@ const AboutPage = () => (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center mb-16">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          About <span className="text-orange-500">GROWTHFLOW</span>
+          About <span className="text-orange-500">TRANSITIONMARKETINGAI</span>
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
           We're on a mission to help Indian businesses automate their marketing and accelerate their growth
@@ -39,13 +39,13 @@ const AboutPage = () => (
         <div>
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
           <p className="text-gray-600 mb-4">
-            GROWTHFLOW was born from a simple observation: Indian businesses were struggling with fragmented marketing tools 
+            TRANSITIONMARKETINGAI was born from a simple observation: Indian businesses were struggling with fragmented marketing tools 
             that didn't understand their unique needs. We saw businesses juggling multiple platforms, losing leads, 
             and missing growth opportunities.
           </p>
           <p className="text-gray-600 mb-4">
             Our founders, with over 15 years of combined experience in marketing automation and Indian business landscapes, 
-            decided to build a solution that would change this. GROWTHFLOW is designed specifically for Indian businesses, 
+            decided to build a solution that would change this. TRANSITIONMARKETINGAI is designed specifically for Indian businesses, 
             with local insights, rupee-based pricing, and personalized support.
           </p>
           <p className="text-gray-600">
@@ -89,8 +89,8 @@ const ServicesDetailPage = () => (
               <span className="text-white font-bold text-lg">📈</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">GROWTHFLOW</h1>
-              <p className="text-sm text-gray-600">Automate Your Growth</p>
+              <h1 className="text-xl font-bold text-gray-900">TRANSITIONMARKETINGAI</h1>
+              <p className="text-sm text-gray-600">AI-Powered Business Transformation</p>
             </div>
           </div>
           <button 
@@ -189,8 +189,8 @@ const CaseStudiesPage = () => (
               <span className="text-white font-bold text-lg">📈</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">GROWTHFLOW</h1>
-              <p className="text-sm text-gray-600">Automate Your Growth</p>
+              <h1 className="text-xl font-bold text-gray-900">TRANSITIONMARKETINGAI</h1>
+              <p className="text-sm text-gray-600">AI-Powered Business Transformation</p>
             </div>
           </div>
           <button 
@@ -209,7 +209,7 @@ const CaseStudiesPage = () => (
           Success <span className="text-orange-500">Stories</span>
         </h1>
         <p className="text-xl text-gray-600">
-          Real results from real businesses using GROWTHFLOW
+          Real results from real businesses using TRANSITIONMARKETINGAI
         </p>
       </div>
 
@@ -334,8 +334,8 @@ const BlogPage = () => (
               <span className="text-white font-bold text-lg">📈</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">GROWTHFLOW</h1>
-              <p className="text-sm text-gray-600">Automate Your Growth</p>
+              <h1 className="text-xl font-bold text-gray-900">TRANSITIONMARKETINGAI</h1>
+              <p className="text-sm text-gray-600">AI-Powered Business Transformation</p>
             </div>
           </div>
           <button 
@@ -444,8 +444,8 @@ const ContactPage = () => (
               <span className="text-white font-bold text-lg">📈</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">GROWTHFLOW</h1>
-              <p className="text-sm text-gray-600">Automate Your Growth</p>
+              <h1 className="text-xl font-bold text-gray-900">TRANSITIONMARKETINGAI</h1>
+              <p className="text-sm text-gray-600">AI-Powered Business Transformation</p>
             </div>
           </div>
           <button 
@@ -504,8 +504,8 @@ const ContactPage = () => (
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900">Email</h3>
-                <p className="text-gray-600">hello@growthflow.in</p>
-                <p className="text-gray-600">support@growthflow.in</p>
+                <p className="text-gray-600">info@transitionmarketingai.com</p>
+                <p className="text-gray-600">info@transitionmarketingai.com</p>
               </div>
             </div>
 
@@ -615,8 +615,8 @@ const FAQPage = () => (
               <span className="text-white font-bold text-lg">📈</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">GROWTHFLOW</h1>
-              <p className="text-sm text-gray-600">Automate Your Growth</p>
+              <h1 className="text-xl font-bold text-gray-900">TRANSITIONMARKETINGAI</h1>
+              <p className="text-sm text-gray-600">AI-Powered Business Transformation</p>
             </div>
           </div>
           <button 
@@ -635,17 +635,17 @@ const FAQPage = () => (
           Frequently Asked <span className="text-orange-500">Questions</span>
         </h1>
         <p className="text-xl text-gray-600">
-          Everything you need to know about GROWTHFLOW
+          Everything you need to know about TRANSITIONMARKETINGAI
         </p>
       </div>
 
       <div className="space-y-8">
         <div className="bg-gray-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">
-            What is GROWTHFLOW and how does it work?
+            What is TRANSITIONMARKETINGAI and how does it work?
           </h3>
           <p className="text-gray-600">
-            GROWTHFLOW is a comprehensive marketing automation platform designed specifically for Indian businesses. 
+            TRANSITIONMARKETINGAI is a comprehensive marketing automation platform designed specifically for Indian businesses. 
             It combines email marketing, social media management, lead generation, and CRM into one unified platform. 
             Our system automates your marketing workflows, nurtures leads, and helps you scale your business efficiently.
           </p>
@@ -653,7 +653,7 @@ const FAQPage = () => (
 
         <div className="bg-gray-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">
-            How quickly can I get started with GROWTHFLOW?
+            How quickly can I get started with TRANSITIONMARKETINGAI?
           </h3>
           <p className="text-gray-600">
             You can get started immediately! After requesting a consultation, our growth consultants will call you within 24 hours 
@@ -664,10 +664,10 @@ const FAQPage = () => (
 
         <div className="bg-gray-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">
-            What makes GROWTHFLOW different from other marketing tools?
+            What makes TRANSITIONMARKETINGAI different from other marketing tools?
           </h3>
           <p className="text-gray-600">
-            GROWTHFLOW is built specifically for the Indian market with local insights, rupee-based pricing, and understanding 
+            TRANSITIONMARKETINGAI is built specifically for the Indian market with local insights, rupee-based pricing, and understanding 
             of Indian business practices. Unlike generic international tools, we provide personalized consultation, 
             hands-on setup assistance, and ongoing support to ensure your success.
           </p>
@@ -675,10 +675,10 @@ const FAQPage = () => (
 
         <div className="bg-gray-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">
-            Do I need technical knowledge to use GROWTHFLOW?
+            Do I need technical knowledge to use TRANSITIONMARKETINGAI?
           </h3>
           <p className="text-gray-600">
-            Not at all! GROWTHFLOW is designed for business owners and marketers, not technical experts. 
+            Not at all! TRANSITIONMARKETINGAI is designed for business owners and marketers, not technical experts. 
             Our intuitive interface and dedicated support team ensure you can focus on growing your business 
             while we handle the technical complexities.
           </p>
@@ -686,10 +686,10 @@ const FAQPage = () => (
 
         <div className="bg-gray-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">
-            What kind of businesses can benefit from GROWTHFLOW?
+            What kind of businesses can benefit from TRANSITIONMARKETINGAI?
           </h3>
           <p className="text-gray-600">
-            GROWTHFLOW works for businesses of all sizes - from startups to established enterprises. 
+            TRANSITIONMARKETINGAI works for businesses of all sizes - from startups to established enterprises. 
             We've successfully helped real estate agencies, healthcare providers, e-commerce stores, 
             educational institutions, and service-based businesses across India automate their marketing and increase revenue.
           </p>
@@ -719,10 +719,10 @@ const FAQPage = () => (
 
         <div className="bg-gray-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">
-            Can I integrate GROWTHFLOW with my existing tools?
+            Can I integrate TRANSITIONMARKETINGAI with my existing tools?
           </h3>
           <p className="text-gray-600">
-            Yes! GROWTHFLOW integrates with popular CRM systems, e-commerce platforms, social media accounts, 
+            Yes! TRANSITIONMARKETINGAI integrates with popular CRM systems, e-commerce platforms, social media accounts, 
             and other business tools you're already using. Our team will help you set up these integrations 
             during the onboarding process.
           </p>
@@ -758,8 +758,8 @@ const HowItWorksPage = () => (
               <span className="text-white font-bold text-lg">📈</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">GROWTHFLOW</h1>
-              <p className="text-sm text-gray-600">Automate Your Growth</p>
+              <h1 className="text-xl font-bold text-gray-900">TRANSITIONMARKETINGAI</h1>
+              <p className="text-sm text-gray-600">AI-Powered Business Transformation</p>
             </div>
           </div>
           <button 
@@ -775,7 +775,7 @@ const HowItWorksPage = () => (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center mb-16">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          How <span className="text-orange-500">GROWTHFLOW</span> Works
+          How <span className="text-orange-500">TRANSITIONMARKETINGAI</span> Works
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
           From consultation to growth - here's how we help you automate your marketing and scale your business
@@ -826,7 +826,7 @@ const HowItWorksPage = () => (
 
       <div className="bg-gray-50 rounded-2xl p-8 mb-16">
         <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-          What You Get With <span className="text-orange-500">GROWTHFLOW</span>
+          What You Get With <span className="text-orange-500">TRANSITIONMARKETINGAI</span>
         </h2>
         
         <div className="grid md:grid-cols-2 gap-8">
@@ -874,10 +874,10 @@ const HowItWorksPage = () => (
 
       <div className="text-center">
         <h3 className="text-2xl font-bold text-gray-900 mb-4">
-          Ready to Automate Your Growth?
+          Ready to AI-Powered Business Transformation?
         </h3>
         <p className="text-gray-600 mb-8">
-          Join 500+ Indian businesses already growing with GROWTHFLOW
+          Join 500+ Indian businesses already growing with TRANSITIONMARKETINGAI
         </p>
         <button 
           onClick={() => window.location.reload()}
