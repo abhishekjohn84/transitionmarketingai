@@ -15,7 +15,7 @@ function App() {
   const [user, setUser] = useState(null)
 
   // API Configuration
-  const API_BASE = 'https://5001-ip4awxeg3jsfu5k4snnx2-72bda4a3.manusvm.computer/api'
+  const API_BASE = 'https://9yhyi3cqnp36.manus.space/api'
 
   const handleSocialLogin = async (userData) => {
     try {
