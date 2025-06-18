@@ -17,7 +17,7 @@ function App() {
   const [user, setUser] = useState(null)
 
   // API Configuration
-  const API_BASE = 'https://9yhyi3cqnp36.manus.space/api'
+  const API_BASE = 'https://vgh0i1cj33x7.manus.space/api'
 
   const handleSocialLogin = async (userData) => {
     try {
