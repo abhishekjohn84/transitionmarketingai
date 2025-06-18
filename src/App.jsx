@@ -112,7 +112,6 @@ function App() {
     setUser(null)
     setIsLoggedIn(false)
     setCurrentPage('home')
-  }etCurrentPage('dashboard')
   }
 
   const services = [
