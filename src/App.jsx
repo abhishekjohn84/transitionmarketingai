@@ -98,7 +98,7 @@ function App() {
         setIsLoggedIn(true)
         setShowSignupModal(false)
         setCurrentPage('dashboard')
-        alert(`Welcome to TransitionMarketingAI! Your account has been created successfully.`)
+        alert(`Welcome to T R A N S I T I O N  M A R K E T I N G  A I! Your account has been created successfully.`)
       } else {
         alert('Registration failed: ' + data.error)
       }
@@ -218,7 +218,7 @@ function App() {
                 <span className="text-white font-bold text-sm">🤖</span>
               </div>
               <div>
-                <h1 className="text-lg font-bold text-gray-900">TRANSITIONMARKETINGAI</h1>
+                <h1 className="text-lg font-bold text-gray-900 tracking-widest">T R A N S I T I O N &nbsp; M A R K E T I N G &nbsp; A I</h1>
                 <p className="text-xs text-gray-600">AI-Powered Business Transformation</p>
               </div>
             </div>
@@ -391,19 +391,19 @@ function App() {
       )}
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-gray-50 to-white min-h-screen flex items-center">
+      <section className="bg-gradient-to-br from-gray-50 to-white min-h-screen flex items-center py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[85vh]">
             {/* Left Content */}
-            <div className="space-y-6">
+            <div className="space-y-6 lg:pr-8">
               <div className="inline-flex items-center px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
                 🤖 AI-Powered Digital Transformation for Indian Businesses
               </div>
-              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">
                 Transition to AI-Powered{' '}
                 <span className="text-orange-500">Marketing Automation</span>
               </h1>
-              <p className="text-lg text-gray-600 leading-relaxed max-w-lg">
+              <p className="text-lg text-gray-600 leading-relaxed">
                 Help your business transition to AI-powered marketing automation and custom development solutions. 
                 From marketing automation to custom websites, mobile apps, and intelligent systems - we build it all.
               </p>
@@ -427,9 +427,9 @@ function App() {
             </div>
             
             {/* Right Form */}
-            <div className="bg-white rounded-xl shadow-xl p-8 border border-gray-100 max-w-md mx-auto lg:mx-0">
+            <div className="bg-white rounded-xl shadow-xl p-6 lg:p-8 border border-gray-100 w-full max-w-md mx-auto lg:mx-0 lg:max-w-none">
               <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Get Free AI Consultation</h3>
+                <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-2">Get Free AI Consultation</h3>
                 <p className="text-sm text-gray-600">
                   Get a callback within <span className="font-semibold text-orange-500">24 hours</span> from our AI transformation experts
                 </p>
@@ -599,7 +599,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              How <span className="text-orange-500">TransitionMarketingAI</span> Works
+              How <span className="text-orange-500">T R A N S I T I O N &nbsp; M A R K E T I N G &nbsp; A I</span> Works
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Our proven 4-step process to transform your marketing and accelerate your business growth
@@ -674,7 +674,7 @@ function App() {
             <div className="bg-white rounded-2xl p-8 max-w-2xl mx-auto shadow-lg">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Get Started?</h3>
               <p className="text-gray-600 mb-6">
-                Join 500+ Indian businesses that have transformed their marketing with TransitionMarketingAI
+                Join 500+ Indian businesses that have transformed their marketing with T R A N S I T I O N &nbsp; M A R K E T I N G &nbsp; A I
               </p>
               <button 
                 onClick={() => setShowSignupModal(true)}
@@ -718,7 +718,7 @@ function App() {
               {
                 name: "Rajesh Kumar",
                 company: "Kumar Real Estate",
-                review: "TransitionMarketingAI transformed our lead generation. We're now getting 300% more qualified leads and our sales team is much more efficient.",
+                review: "T R A N S I T I O N  M A R K E T I N G  A I transformed our lead generation. We're now getting 300% more qualified leads and our sales team is much more efficient.",
                 rating: 5,
                 result: "300% more leads"
               },
@@ -762,7 +762,7 @@ function App() {
             Ready to Accelerate Your Growth?
           </h2>
           <p className="text-xl text-orange-100 mb-8">
-            Join 500+ Indian businesses that have transformed their marketing with TransitionMarketingAI
+            Join 500+ Indian businesses that have transformed their marketing with T R A N S I T I O N &nbsp; M A R K E T I N G &nbsp; A I
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
@@ -785,7 +785,7 @@ function App() {
                   <span className="text-white font-bold text-lg">📈</span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold">TRANSITIONMARKETINGAI</h3>
+                  <h3 className="text-xl font-bold tracking-widest">T R A N S I T I O N &nbsp; M A R K E T I N G &nbsp; A I</h3>
                   <p className="text-sm text-gray-400">AI-Powered Business Transformation</p>
                 </div>
               </div>
@@ -831,7 +831,7 @@ function App() {
           </div>
           
           <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400">© 2024 TransitionMarketingAI. All rights reserved.</p>
+            <p className="text-gray-400">© 2024 T R A N S I T I O N &nbsp; M A R K E T I N G &nbsp; A I. All rights reserved.</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <button className="text-gray-400 hover:text-white text-sm">Privacy Policy</button>
               <button className="text-gray-400 hover:text-white text-sm">Terms of Service</button>
