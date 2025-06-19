@@ -34,25 +34,56 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         
-      - name: Build
+      - name: Build Main Site
         run: pnpm run build
+        
+      - name: Build Publisher
+        run: pnpm run build:publisher
+        
+      - name: Copy 404.html for Publisher
+        run: cp public/publisher-404.html dist-publisher/404.html
+        
+      - name: Create CNAME for Publisher
+        run: cp public/publisher-CNAME dist-publisher/CNAME
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
-      - name: Upload artifact
+      - name: Upload Main Site Artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          name: main-site
           path: './dist'
           
-  deploy:
+      - name: Upload Publisher Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: publisher
+          path: './dist-publisher'
+          
+  deploy-main:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy Main Site to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: main-site
+          
+  deploy-publisher:
+    environment:
+      name: publisher-pages
+      url: http://publisher.transitionmarketingai.com
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy Publisher to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: publisher
 
