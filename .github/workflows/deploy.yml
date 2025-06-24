@@ -81,12 +81,4 @@ jobs:
   deploy-publisher:
     environment:
       name: publisher-pages
-      url: http://publisher.transitionmarketingai.com
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy Publisher to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: publisher
+      url: http://publisher.transitionmarketingai
