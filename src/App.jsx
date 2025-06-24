@@ -239,7 +239,7 @@ function App() {
             </div>
             <div className="flex items-center space-x-3">
               <a 
-                href="https://publisher.transitionmarketingai.com" 
+                href="http://publisher.transitionmarketingai.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-2"
