@@ -30,6 +30,22 @@
   status = 301
   force = true
 
+# Fix MIME type for JavaScript files
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+
+[[headers]]
+  for = "*.mjs"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+
+[[headers]]
+  for = "*.jsx"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+
 # Security headers
 [[headers]]
   for = "/*"

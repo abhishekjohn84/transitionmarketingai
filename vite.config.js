@@ -25,8 +25,15 @@ export default defineConfig(({ mode }) => {
           : path.resolve(__dirname, 'index.html'),
         output: {
           manualChunks: undefined,
+          // Ensure proper file extensions for JavaScript modules
+          entryFileNames: 'assets/[name]-[hash].js',
+          chunkFileNames: 'assets/[name]-[hash].js',
+          assetFileNames: 'assets/[name]-[hash].[ext]'
         },
       },
+      // Ensure proper module format
+      target: 'es2015',
+      minify: 'esbuild',
     },
     server: {
       allowedHosts: [

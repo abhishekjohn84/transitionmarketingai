@@ -1,0 +1,15 @@
+# MIME type fixes for JavaScript modules
+*.js
+  Content-Type: application/javascript; charset=utf-8
+*.mjs
+  Content-Type: application/javascript; charset=utf-8
+*.jsx
+  Content-Type: application/javascript; charset=utf-8
+
+# Security headers
+/*
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;
