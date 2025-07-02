@@ -53,3 +53,355 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+EOFcat <<'EOF' > src/App.jsx
+import React, { useState } from 'react'
+import './App.css'
+import { AboutPage, ServicesPage, CaseStudiesPage, BlogPage, ContactPage, FAQPage, HowItWorksPage } from './pages.jsx'
+import { Dashboard } from './Dashboard.jsx'
+import { SocialAuthButtons } from './SocialAuth.jsx'
+import AdminPanel from './AdminPanel.jsx'
+import Login from './pages/Login.jsx'
+import Signup from './pages/Signup.jsx'
+import CRM from './pages/CRM.jsx'
+import Admin from './pages/Admin.jsx'
+
+function App() {
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
+  const [currentPage, setCurrentPage] = useState('home')
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [user, setUser] = useState(null)
+
+  // Get API URL from environment variables set during deployment
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
+  const handleSocialLogin = async (userData) => {
+    try {
+      const response = await fetch(`${API_BASE}/auth/social`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          provider: userData.provider,
+          name: userData.name,
+          email: userData.email,
+          avatar_url: userData.avatar,
+          provider_id: userData.provider_id || 'demo_' + Date.now()
+        })
+      })
+
+      const data = await response.json()
+      
+      if (data.success) {
+        setUser(data.user)
+        setIsLoggedIn(true)
+        setCurrentPage('dashboard')
+      } else {
+        alert('Social login failed: ' + data.error)
+      }
+    } catch (error) {
+      console.error('Social login error:', error)
+      alert('Social login failed')
+    }
+  }
+
+  const handleEmailLogin = async (email, password) => {
+    try {
+      const response = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      })
+
+      const data = await response.json()
+      
+      if (response.ok) {
+        setUser(data.user)
+        setIsLoggedIn(true)
+        setCurrentPage('dashboard')
+      } else {
+        alert('Login failed: ' + data.error)
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+      alert('Login failed')
+    }
+  }
+
+  const handleEmailSignup = async (email, password, name, company) => {
+    try {
+      const response = await fetch(`${API_BASE}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          full_name: name, 
+          email: email, 
+          company_name: company,
+          password: password 
+        })
+      })
+
+      const data = await response.json()
+      
+      if (response.ok) {
+        setUser(data.user)
+        setIsLoggedIn(true)
+        setCurrentPage('dashboard')
+        alert(`Welcome to T R A N S I T I O N  M A R K E T I N G  A I! Your account has been created successfully.`)
+      } else {
+        alert('Registration failed: ' + data.error)
+      }
+    } catch (error) {
+      console.error('Registration error:', error)
+      alert('Registration failed')
+    }
+  }
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${API_BASE}/auth/logout`, { method: 'POST' })
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+    
+    setUser(null)
+    setIsLoggedIn(false)
+    setCurrentPage('home')
+  }
+
+  const services = [
+    {
+      id: 'email',
+      name: 'Email Automation',
+      description: 'Automated email sequences that nurture leads and drive conversions',
+      icon: '📧',
+      features: ['Drag-and-drop builder', 'Smart segmentation', 'A/B testing', 'Performance analytics']
+    },
+    {
+      id: 'social',
+      name: 'Social Media Management',
+      description: 'Schedule, publish, and analyze your social media presence across platforms',
+      icon: '📱',
+      features: ['Multi-platform posting', 'Content calendar', 'Engagement tracking', 'Hashtag optimization']
+    },
+    {
+      id: 'forms',
+      name: 'Smart Forms & Lead Gen',
+      description: 'Intelligent forms that capture and qualify leads automatically',
+      icon: '📝',
+      features: ['Conditional logic', 'Real-time validation', 'Lead scoring', 'CRM integration']
+    },
+    {
+      id: 'lead-gen',
+      name: 'Lead Generation Services',
+      description: 'Professional lead generation campaigns and strategies',
+      icon: '🎯',
+      features: ['Target identification', 'Outreach campaigns', 'Lead qualification', 'Conversion optimization']
+    }
+  ]
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const data = Object.fromEntries(formData)
+    
+    // Collect selected services
+    const services = []
+    if (data['marketing-automation']) services.push('Marketing Automation')
+    if (data['lead-generation']) services.push('Lead Generation Systems')
+    if (data['custom-development']) services.push('Custom Development')
+    if (data['ai-integration']) services.push('AI Integration Services')
+    
+    try {
+      const response = await fetch(`${API_BASE}/leads`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          services_interested: services,
+          message: data.message || '',
+          source: 'website'
+        })
+      })
+      
+      if (response.ok) {
+        alert(`Thank you ${data.name}! Your consultation request has been submitted successfully. We'll contact you within 24 hours to discuss your marketing automation needs and provide a custom strategy.`)
+        e.target.reset() // Clear the form
+      } else {
+        throw new Error('Failed to submit form')
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      alert('There was an error submitting your request. Please try again or contact us directly.')
+    }
+  }
+
+  // Navigation function
+  const navigateTo = (page) => {
+    setCurrentPage(page)
+  }
+
+  // Render different pages based on currentPage state
+  if (currentPage === 'dashboard') return <Dashboard user={user} />
+  if (currentPage === 'admin') return <Admin onNavigate={navigateTo} />
+  if (currentPage === 'about') return <AboutPage />
+  if (currentPage === 'services') return <ServicesPage />
+  if (currentPage === 'case-studies') return <CaseStudiesPage />
+  if (currentPage === 'blog') return <BlogPage />
+  if (currentPage === 'contact') return <ContactPage />
+  if (currentPage === 'faq') return <FAQPage />
+  if (currentPage === 'how-it-works') return <HowItWorksPage />
+  if (currentPage === 'login') return <Login onLogin={(userData) => {
+    setUser(userData);
+    setIsLoggedIn(true);
+    navigateTo('dashboard');
+  }} onNavigate={navigateTo} />
+  if (currentPage === 'signup') return <Signup onSignup={(userData) => {
+    setUser(userData);
+    setIsLoggedIn(true);
+    navigateTo('dashboard');
+  }} onNavigate={navigateTo} />
+  if (currentPage === 'crm') return <CRM user={user} onNavigate={navigateTo} />
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Main Header */}
+      <header className="bg-white shadow-sm border-b sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-3">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">🤖</span>
+              </div>
+              <div>
+                <h1 className="text-lg font-bold text-gray-900 tracking-widest">T R A N S I T I O N  M A R K E T I N G  A I</h1>
+                <p className="text-xs text-gray-600">AI-Powered Business Transformation</p>
+              </div>
+            </div>
+            
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-8">
+              <button onClick={() => navigateTo('home')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium text-sm">Home</button>
+              <button onClick={() => navigateTo('about')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium text-sm">About</button>
+              <button onClick={() => navigateTo('services')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium text-sm">Services</button>
+              <button onClick={() => navigateTo('case-studies')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium text-sm">Case Studies</button>
+              <button onClick={() => navigateTo('faq')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium text-sm">FAQ</button>
+              <button onClick={() => navigateTo('contact')} className="text-gray-700 hover:text-orange-500 transition-colors font-medium text-sm">Contact</button>
+            </nav>
+
+            {/* Mobile/Tablet Hamburger Menu */}
+            <div className="lg:hidden">
+              <button 
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                className="p-2 rounded-md text-gray-700 hover:text-orange-500 hover:bg-gray-100 transition-colors"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Desktop Action Buttons */}
+            <div className="hidden lg:flex items-center space-x-3">
+              {!isLoggedIn ? (
+                <>
+                  <button 
+                    onClick={() => navigateTo('login')}
+                    className="text-orange-500 border border-orange-500 px-3 py-1.5 rounded-lg hover:bg-orange-50 transition-colors font-medium text-sm"
+                  >
+                    Login
+                  </button>
+                  <button 
+                    onClick={() => navigateTo('signup')}
+                    className="bg-orange-500 text-white px-4 py-1.5 rounded-lg hover:bg-orange-600 transition-colors font-medium text-sm"
+                  >
+                    Get Free Consultation
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button 
+                    onClick={() => navigateTo('crm')}
+                    className="text-orange-500 border border-orange-500 px-6 py-2 rounded-lg hover:bg-orange-50 transition-colors font-medium"
+                  >
+                    CRM Dashboard
+                  </button>
+                  <div className="flex items-center space-x-3">
+                    <span className="text-gray-700">Welcome, {user?.name || 'User'}</span>
+                    <button 
+                      onClick={handleLogout}
+                      className="text-gray-500 hover:text-gray-700 transition-colors"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      {showMobileMenu && (
+        <div className="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50" onClick={() => setShowMobileMenu(false)}>
+          <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-xl">
+            <div className="flex justify-between items-center p-4 border-b">
+              <h2 className="text-lg font-semibold text-gray-900">Menu</h2>
+              <button 
+                onClick={() => setShowMobileMenu(false)}
+                className="p-2 rounded-md text-gray-700 hover:text-orange-500 hover:bg-gray-100"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            <nav className="p-4 space-y-4">
+              <button onClick={() => { navigateTo('home'); setShowMobileMenu(false); }} className="block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg">Home</button>
+              <button onClick={() => { navigateTo('about'); setShowMobileMenu(false); }} className="block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg">About</button>
+              <button onClick={() => { navigateTo('services'); setShowMobileMenu(false); }} className="block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg">Services</button>
+              <button onClick={() => { navigateTo('case-studies'); setShowMobileMenu(false); }} className="block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg">Case Studies</button>
+              <button onClick={() => { navigateTo('faq'); setShowMobileMenu(false); }} className="block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg">FAQ</button>
+              <button onClick={() => { navigateTo('contact'); setShowMobileMenu(false); }} className="block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg">Contact</button>
+              
+              <div className="border-t pt-4 space-y-3">
+                {!isLoggedIn ? (
+                  <>
+                    <button onClick={() => { navigateTo('login'); setShowMobileMenu(false); }} className="block w-full text-center px-4 py-3 text-orange-500 border border-orange-500 rounded-lg">Login</button>
+                    <button onClick={() => { navigateTo('signup'); setShowMobileMenu(false); }} className="block w-full text-center px-4 py-3 bg-orange-500 text-white rounded-lg">Get Free Consultation</button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => { navigateTo('crm'); setShowMobileMenu(false); }} className="block w-full text-center px-4 py-3 text-orange-500 border border-orange-500 rounded-lg">CRM Dashboard</button>
+                    <div className="px-4 py-3 text-center text-gray-700">Welcome, {user?.name || 'User'}</div>
+                    <button onClick={() => { handleLogout(); setShowMobileMenu(false); }} className="block w-full text-center px-4 py-3 text-gray-500 hover:text-gray-700">Logout</button>
+                  </>
+                )}
+              </div>
+            </nav>
+          </div>
+        </div>
+      )}
+
+      {/* Hero Section and other page content... */}
+      <section className="bg-gradient-to-br from-gray-50 to-white min-h-screen flex items-center py-12">
+        {/* ... existing hero section content ... */}
+      </section>
+
+      {/* ... other sections ... */}
+      
+    </div>
+  )
+}
+
+export default App
