@@ -16,9 +16,57 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
+  const [showPublishModal, setShowPublishModal] = useState(false)
+  const [publishForm, setPublishForm] = useState({
+    versionType: 'patch',
+    versionNumber: '',
+    changeSummary: ''
+  })
+  const [isPublishing, setIsPublishing] = useState(false)
 
   // API Configuration
   const API_BASE = 'https://vgh0i1cj33x7.manus.space/api'
+  const PUBLISHER_API = 'https://xlhyimcj01y1.manus.space'
+
+  // Handle direct publish from staging site
+  const handleDirectPublish = async () => {
+    if (!publishForm.versionNumber || !publishForm.changeSummary) {
+      alert('Please fill in all required fields')
+      return
+    }
+
+    setIsPublishing(true)
+    
+    try {
+      const response = await fetch(`${PUBLISHER_API}/api/deploy`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          version_type: publishForm.versionType,
+          version_number: publishForm.versionNumber,
+          change_summary: publishForm.changeSummary,
+          source: 'staging_header'
+        })
+      })
+
+      const result = await response.json()
+      
+      if (response.ok && result.success) {
+        alert(`🎉 Successfully published version ${publishForm.versionNumber} to production!\n\nChanges: ${publishForm.changeSummary}\n\nYour staging site has been deployed to www.transitionmarketingai.com`)
+        setShowPublishModal(false)
+        setPublishForm({ versionType: 'patch', versionNumber: '', changeSummary: '' })
+      } else {
+        alert(`❌ Publish failed: ${result.error || 'Unknown error occurred'}`)
+      }
+    } catch (error) {
+      console.error('Publish error:', error)
+      alert('❌ Publish failed: Network error. Please try again.')
+    } finally {
+      setIsPublishing(false)
+    }
+  }
 
   const handleSocialLogin = async (userData) => {
     try {
@@ -238,27 +286,27 @@ function App() {
               <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">demo.transitionmarketingai.com</span>
             </div>
             <div className="flex items-center space-x-3">
-              <a 
-                href="https://publisher.transitionmarketingai.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-2"
+              <button 
+                onClick={() => setShowPublishModal(true)}
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-2"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
                 <span>Publish to Production</span>
-              </a>
-              <button 
-                onClick={() => navigateTo('publisher')}
-                className="bg-white text-orange-500 hover:bg-gray-50 px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-2"
+              </button>
+              <a 
+                href="http://publisher.transitionmarketingai.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-2"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span>Publisher Settings</span>
-              </button>
+                <span>Publisher Dashboard</span>
+              </a>
             </div>
           </div>
         </div>
@@ -895,6 +943,81 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* Direct Publish Modal */}
+      {showPublishModal && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">Publish to Production</h3>
+                <button 
+                  onClick={() => setShowPublishModal(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Version Type</label>
+                  <select 
+                    value={publishForm.versionType}
+                    onChange={(e) => setPublishForm({...publishForm, versionType: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  >
+                    <option value="patch">Patch (Bug Fix)</option>
+                    <option value="minor">Minor (New Feature)</option>
+                    <option value="major">Major (Breaking Change)</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Version Number *</label>
+                  <input 
+                    type="text"
+                    placeholder="e.g., 1.2.0"
+                    value={publishForm.versionNumber}
+                    onChange={(e) => setPublishForm({...publishForm, versionNumber: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Change Summary *</label>
+                  <textarea 
+                    placeholder="Describe what changes are being deployed..."
+                    value={publishForm.changeSummary}
+                    onChange={(e) => setPublishForm({...publishForm, changeSummary: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 h-20 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    required
+                  />
+                </div>
+              </div>
+              
+              <div className="flex space-x-3 mt-6">
+                <button 
+                  onClick={() => setShowPublishModal(false)}
+                  className="flex-1 bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={handleDirectPublish}
+                  disabled={isPublishing}
+                  className="flex-1 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isPublishing ? 'Publishing...' : 'Publish Now'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
