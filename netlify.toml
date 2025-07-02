@@ -11,22 +11,22 @@
   to = "/index.html"
   status = 200
 
-# Force HTTPS and www redirect
+# Domain redirects - redirect non-www to www
+[[redirects]]
+  from = "https://transitionmarketingai.com/*"
+  to = "https://www.transitionmarketingai.com/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "http://transitionmarketingai.com/*"
-  to = "https://transitionmarketingai.com/:splat"
+  to = "https://www.transitionmarketingai.com/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "http://www.transitionmarketingai.com/*"
-  to = "https://transitionmarketingai.com/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "https://www.transitionmarketingai.com/*"
-  to = "https://transitionmarketingai.com/:splat"
+  to = "https://www.transitionmarketingai.com/:splat"
   status = 301
   force = true
 
