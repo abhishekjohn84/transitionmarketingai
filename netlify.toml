@@ -4,13 +4,31 @@
 
 [build.environment]
   NODE_VERSION = "18"
-  NPM_FLAGS = "--version"
 
-# SPA routing
+# SPA routing - handle all routes
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Force HTTPS and www redirect
+[[redirects]]
+  from = "http://transitionmarketingai.com/*"
+  to = "https://transitionmarketingai.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.transitionmarketingai.com/*"
+  to = "https://transitionmarketingai.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.transitionmarketingai.com/*"
+  to = "https://transitionmarketingai.com/:splat"
+  status = 301
+  force = true
 
 # Security headers
 [[headers]]
@@ -20,22 +38,4 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-
-# Custom domain redirects
-[[redirects]]
-  from = "https://transitionmarketingai.com/*"
-  to = "https://www.transitionmarketingai.com/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "http://transitionmarketingai.com/*"
-  to = "https://www.transitionmarketingai.com/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "http://www.transitionmarketingai.com/*"
-  to = "https://www.transitionmarketingai.com/:splat"
-  status = 301
-  force = true
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;"
