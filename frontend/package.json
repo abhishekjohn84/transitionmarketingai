@@ -4,12 +4,12 @@
   "version": "1.07.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "dev:publisher": "vite --mode publisher",
-    "build": "vite build",
-    "build:publisher": "vite build --mode publisher",
+    "dev": "pnpm dlx vite",
+    "dev:publisher": "pnpm dlx vite --mode publisher",
+    "build": "pnpm dlx vite build",
+    "build:publisher": "pnpm dlx vite build --mode publisher",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "pnpm dlx vite preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
